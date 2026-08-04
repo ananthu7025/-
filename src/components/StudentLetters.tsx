@@ -14,6 +14,7 @@ export default function StudentLetters() {
       role: "Private Pilot Candidate",
       avatar: "/assets/avatar1.png",
       rotation: "-rotate-2",
+      restRotate: -2,
       text: "“I passed my checkride on the first attempt last Wednesday! The pilot mentorship here gave me standard operating procedure insights my flight school instructor simply skipped. It made the difference between confidence and hesitation in the cockpit.”",
       date: "August 1st, 2026",
     },
@@ -23,6 +24,7 @@ export default function StudentLetters() {
       role: "Commercial Student",
       avatar: "/assets/avatar2.png",
       rotation: "rotate-1",
+      restRotate: 1,
       text: "“Building an airline career roadmap felt overwhelming and expensive. Through Plane & Prop, I sat down with an active Airbus captain who helped me streamline my multi-engine ratings. This community saved me thousands in mistakes.”",
       date: "July 24th, 2026",
     },
@@ -32,6 +34,7 @@ export default function StudentLetters() {
       role: "First Officer Cadet",
       avatar: "/assets/avatar3.png",
       rotation: "-rotate-1",
+      restRotate: -1,
       text: "“This is the digital crew room I always wished I had. The hand-crafted ground school notes, flight logs, and interview prep guides are refined to absolute perfection. It's like having a library of veteran wisdom in your pocket.”",
       date: "July 18th, 2026",
     },
@@ -80,14 +83,31 @@ export default function StudentLetters() {
 
         {/* Testimonials Desktop Grid / Mobile Carousel */}
         <div className="hidden md:grid grid-cols-3 gap-8 items-stretch pt-4">
-          {testimonials.map((test) => (
-            <div
+          {testimonials.map((test, idx) => (
+            <motion.div
               key={test.id}
-              className={`relative bg-[#FAF6EE] border border-[#EAE6DF] rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:z-10 ${test.rotation}`}
+              initial={{ opacity: 0, y: -28, rotate: 0 }}
+              whileInView={{ opacity: 1, y: 0, rotate: test.restRotate }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{
+                duration: 0.55,
+                delay: idx * 0.12,
+                ease: [0.34, 1.56, 0.64, 1],
+              }}
+              whileHover={{
+                rotate: [test.restRotate, test.restRotate - 2, test.restRotate + 2, test.restRotate],
+                transition: { duration: 0.4 },
+              }}
+              className="relative bg-[#FAF6EE] border border-[#EAE6DF] rounded-2xl p-8 flex flex-col justify-between transition-shadow duration-300 hover:shadow-lg hover:z-10"
             >
-              {/* Paper pin design */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#D7A640]/10 border border-[#D7A640]/30 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D7A640]" />
+              {/* Pushpin */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-6 h-8 drop-shadow-sm">
+                <svg viewBox="0 0 24 32" fill="none" className="w-full h-full">
+                  <ellipse cx="12" cy="27" rx="3" ry="2" fill="#0B1B2B" opacity="0.12" />
+                  <path d="M12 14 L12 30" stroke="#8a6d1f" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="12" cy="9" r="8" fill="#D7A640" />
+                  <circle cx="9" cy="6" r="2.4" fill="#F4D488" opacity="0.8" />
+                </svg>
               </div>
 
               <div className="space-y-6">
@@ -119,7 +139,7 @@ export default function StudentLetters() {
                 <span>{test.date}</span>
                 <span className="text-[#D7A640]">&bull; Log Entry</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
