@@ -7,9 +7,9 @@ import { motion } from "framer-motion";
 
 export default function Mentorship() {
   const features = [
-    "1-on-1 Guidance",
-    "Career Roadmap",
-    "Interview Prep"
+    "1-on-1 Cockpit Debriefs",
+    "Airline Captain Notes",
+    "Cadet Simulator Prep"
   ];
 
   return (
@@ -17,7 +17,7 @@ export default function Mentorship() {
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
         {/* Rounded Blue Card Container */}
         <div className="bg-[#e3ecf0] rounded-[32px] p-8 md:p-12 lg:p-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-
+ 
           {/* Left Column: Mentorship Illustration */}
           <div className="lg:col-span-5 flex justify-center lg:justify-start">
             <motion.div
@@ -37,19 +37,19 @@ export default function Mentorship() {
               />
             </motion.div>
           </div>
-
+ 
           {/* Right Column: Heading, Description, Horizontal Pills */}
           <div className="lg:col-span-7 space-y-6">
-            <span className="text-sm font-semibold tracking-wide text-[#F2542D]">
-              Mentorship
+            <span className="text-sm font-semibold tracking-wide text-[#F2542D] uppercase">
+              Captain's Notes
             </span>
             <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111] leading-[1.2]">
-              Learn from those<br />who've been there.
+              Learn from captains<br />who have flown the lines.
             </h2>
             <p className="text-base text-[#5B5B5B] leading-relaxed font-light max-w-xl">
-              Connect with experienced pilots and professionals who've walked the path you're on.
+              Get direct cockpit briefings and debriefs from senior captains. Ditch abstract flight school advice and get real mission-critical aviation mentorship.
             </p>
-
+ 
             {/* Horizontal Pills */}
             <div className="flex flex-wrap gap-3 pt-2">
               {features.map((feature, idx) => (
@@ -70,13 +70,13 @@ export default function Mentorship() {
                 </motion.div>
               ))}
             </div>
-
+ 
             <div className="pt-4">
               <Link
-                href="#join"
+                href="/community"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-[#111111] hover:text-[#F2542D] transition-colors border-b-2 border-[#111111] hover:border-[#F2542D] pb-1"
               >
-                Explore mentorship <span className="text-base">&rarr;</span>
+                Request Callsign Briefing <span className="text-base">&rarr;</span>
               </Link>
             </div>
           </div>

@@ -13,21 +13,21 @@ export default function Community() {
 
           {/* Left Text Content */}
           <div className="lg:col-span-5 space-y-6">
-            <span className="text-sm font-semibold tracking-wide text-[#F2542D]">
-              Our Community
+            <span className="text-sm font-semibold tracking-wide text-[#F2542D] uppercase">
+              The Flight Deck Clubhouse
             </span>
             <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[#111111] leading-[1.2]">
-              You're not alone<br />on this journey.
+              Connect with Sky Nerds on the same frequency.
             </h2>
             <p className="text-base text-[#5B5B5B] leading-relaxed font-light max-w-sm">
-              A space to connect, ask, learn, and inspire each other.
+              Join student pilots, CPL aspirants, and flight instructors sharing real flight logs, debriefs, and mission checklists daily.
             </p>
             <div className="pt-2">
               <Link
-                href="#join"
+                href="/community"
                 className="inline-flex items-center gap-2 text-sm font-semibold text-[#111111] hover:text-[#F2542D] transition-colors border-b-2 border-[#111111] hover:border-[#F2542D] pb-1"
               >
-                Join our community <span className="text-base">&rarr;</span>
+                Enter Hangar Deck <span className="text-base">&rarr;</span>
               </Link>
             </div>
           </div>

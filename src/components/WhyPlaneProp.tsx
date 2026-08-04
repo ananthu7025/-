@@ -6,32 +6,32 @@ import { motion } from "framer-motion";
 export default function WhyPlaneProp() {
   const cards = [
     {
-      title: "Community First",
-      desc: "A tight-knit community that supports you at every step.",
+      title: "Hangar Clubhouse",
+      desc: "A single united space for student pilots, CPL aspirants, and sky nerds to debrief and share logs.",
       icon: "/assets/icon-community.png",
       bgClass: "bg-[#FDF1DC]", // Pale peach/yellow
     },
     {
-      title: "Real Guidance",
-      desc: "From industry experts who've been there and done that.",
+      title: "Captain's Notes",
+      desc: "Get real cockpit briefings and veteran captain notes from airline captains who have flown the lines.",
       icon: "/assets/icon-mentorship.png",
       bgClass: "bg-[#F3ECE3]", // Pale warm beige
     },
     {
-      title: "Curated Resources",
-      desc: "Handpicked material to help you learn better and faster.",
+      title: "Mission Checklists",
+      desc: "Ditch dry textbooks. Grab checkride guides, ATC simulators, and flight planning checklists.",
       icon: "/assets/icon-resources.png",
       bgClass: "bg-[#F3ECE3]", // Pale warm grey/beige
     },
     {
-      title: "Career Support",
-      desc: "Interview prep, resume reviews and career guidance.",
+      title: "Cockpit Callsigns",
+      desc: "Prep for DGCA pilot exams, HR simulator rounds, and airline cadet programs with active aviators.",
       icon: "/assets/icon-career.png",
       bgClass: "bg-[#E5EFF0]", // Pale teal
     },
     {
-      title: "Beyond Training",
-      desc: "We prepare you for the real world, not just the exams.",
+      title: "Aviation Storytelling",
+      desc: "Learn through real crash investigation logs, flight telemetry analyses, and hangar debriefs.",
       icon: "/assets/icon-beyond.png",
       bgClass: "bg-[#FDF1DC]", // Pale peach/yellow
     },
@@ -55,7 +55,7 @@ export default function WhyPlaneProp() {
             strokeWidth="2"
             className="dotted-path"
           />
-
+ 
           {/* Right side loop echoing the Hero's right-side flourish */}
           <path
             d="M 1250,60 C 1320,20 1400,60 1380,140 C 1360,220 1260,200 1300,280"
@@ -64,7 +64,7 @@ export default function WhyPlaneProp() {
             className="dotted-path"
           />
         </svg>
-
+ 
         {/* Small paper airplane resting on the left path, matching Hero's icon */}
         <div className="absolute left-[6%] top-[24%] w-10 h-10 opacity-90 -rotate-[20deg] text-[#D7A640]">
           <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
@@ -72,7 +72,7 @@ export default function WhyPlaneProp() {
           </svg>
         </div>
       </div>
-
+ 
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 relative z-10">
         {/* Header Section */}
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
@@ -80,7 +80,7 @@ export default function WhyPlaneProp() {
             Why Plane & Prop?
           </h2>
           <p className="text-sm md:text-base text-[#5B5B5B] font-light">
-            Because flying is a journey best taken together.
+            Because aviation isn't a classroom study. It's a cockpit lifestyle.
           </p>
         </div>
 

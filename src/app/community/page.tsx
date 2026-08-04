@@ -266,20 +266,20 @@ export default function CommunityPage() {
               <div className="lg:col-span-5 space-y-8">
                 <div className="space-y-4">
                   <span className="text-xs font-bold tracking-wider text-[#F2542D] uppercase bg-[#F2542D]/10 px-3 py-1 rounded-full">
-                    Join the digital hangar
+                    Tune in to Hangar Frequency
                   </span>
                   <h1 className="text-5xl lg:text-6xl font-serif text-[#111111] leading-tight">
-                    One Destination.
+                    One Hangar.
                     <br />
-                    Every Step.
+                    No separated channels.
                     <br />
                     <span className="relative inline-block">
-                      Your Crew.
+                      Just your crew.
                       <span className="absolute bottom-1.5 left-0 w-full h-[6px] bg-[#F2542D]/20 rounded-full" />
                     </span>
                   </h1>
                   <p className="text-sm md:text-base text-[#5B5B5B] leading-relaxed font-light max-w-md">
-                    Your all-in-one flight co-pilot for pilot training, DGCA exams, and aviation interviews. Learn, grow, and fly together.
+                    The ultimate aviation clubhouse for student pilots, CPL aspirants, and sky nerds. Share checkride debriefs, cockpit instrument notes, and ATC mission logs daily.
                   </p>
                 </div>
 
