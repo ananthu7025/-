@@ -23,16 +23,14 @@ export default function HeroScrollytelling() {
       className="relative w-full bg-[#F8F5EE] h-[220vh] lg:h-[400vh]"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="flex flex-col lg:flex-row h-full w-full">
-          {/* Mobile: image on top */}
-          <div className="order-1 lg:order-2 relative w-full lg:w-[55%] h-[45vh] lg:h-full shrink-0">
-            <HeroSequence containerRef={containerRef} onProgress={handleProgress} />
-          </div>
+        {/* Full-bleed illustration: painted behind everything, filling the
+            entire viewport with no container edge, so it reads as the page
+            itself rather than embedded media. */}
+        <HeroSequence containerRef={containerRef} onProgress={handleProgress} />
 
-          {/* Mobile: text below */}
-          <div className="order-2 lg:order-1 relative w-full lg:w-[45%] h-[55vh] lg:h-full px-6 sm:px-10 lg:pl-16 lg:pr-10 max-w-[1280px] mx-auto lg:mx-0">
-            <HeroContent activeIndex={activeIndex} />
-          </div>
+        {/* Text floats in the scene's negative space above the artwork. */}
+        <div className="relative h-full w-full" style={{ zIndex: 10 }}>
+          <HeroContent activeIndex={activeIndex} />
         </div>
       </div>
     </section>

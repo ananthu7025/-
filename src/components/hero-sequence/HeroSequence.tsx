@@ -63,15 +63,17 @@ export default function HeroSequence({ containerRef, onProgress }: HeroSequenceP
       const imageRatio = image.naturalWidth / image.naturalHeight;
       const canvasRatio = canvasWidth / canvasHeight;
 
+      // Cover-fit: the illustration always fills the full viewport edge-to-edge,
+      // so there is never a visible rectangle boundary around it.
       let drawWidth: number;
       let drawHeight: number;
 
       if (imageRatio > canvasRatio) {
-        drawWidth = canvasWidth;
-        drawHeight = canvasWidth / imageRatio;
-      } else {
         drawHeight = canvasHeight;
         drawWidth = canvasHeight * imageRatio;
+      } else {
+        drawWidth = canvasWidth;
+        drawHeight = canvasWidth / imageRatio;
       }
 
       const offsetX = (canvasWidth - drawWidth) / 2;
@@ -140,7 +142,7 @@ export default function HeroSequence({ containerRef, onProgress }: HeroSequenceP
   }, [isLoading, images]);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div className="absolute inset-0 h-full w-full" style={{ zIndex: 0 }}>
       <canvas
         ref={canvasRef}
         className="block w-full h-full"
