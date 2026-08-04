@@ -10,11 +10,10 @@ export default function Navbar() {
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "Why Plane & Prop", href: "/#why-plane-prop" },
-    { name: "Community", href: "/community" },
-    { name: "Student Letters", href: "/#letters" },
-    { name: "Mentorship", href: "/#mentorship" },
-    { name: "Newsletters", href: "/#newsletters" },
+    { name: "Briefing Room", href: "/#why-plane-prop" },
+    { name: "Hangar Feed", href: "/community" },
+    { name: "Callsign Logs", href: "/#letters" },
+    { name: "Captain's Notes", href: "/#mentorship" },
   ];
 
   return (
@@ -44,10 +43,10 @@ export default function Navbar() {
         {/* CTA Right (Desktop) */}
         <div className="hidden lg:flex items-center">
           <Link
-            href="#join"
+            href="/community"
             className="premium-btn bg-[#111111] text-white hover:bg-[#D7A640] transition-colors duration-300"
           >
-            Join Us
+            Enter Hangar
           </Link>
         </div>
 
@@ -84,11 +83,11 @@ export default function Navbar() {
               ))}
               <div className="pt-4 border-t border-[#EAE6DF]">
                 <Link
-                  href="#join"
+                  href="/community"
                   onClick={() => setIsOpen(false)}
                   className="premium-btn bg-[#111111] text-white hover:bg-[#D7A640] transition-colors duration-300 block text-center w-full"
                 >
-                  Join Us
+                  Enter Hangar
                 </Link>
               </div>
             </div>
