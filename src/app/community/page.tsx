@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -39,6 +39,36 @@ interface Post {
 }
 
 export default function CommunityPage() {
+  const revealContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const initGsap = async () => {
+      const { gsap } = await import("gsap");
+      const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+      gsap.registerPlugin(ScrollTrigger);
+
+      const words = revealContainerRef.current?.querySelectorAll(".reveal-word");
+      if (words && words.length > 0) {
+        gsap.fromTo(
+          words,
+          { opacity: 0.15, color: "#a1a1aa" },
+          {
+            opacity: 1,
+            color: "#111111",
+            stagger: 0.1,
+            scrollTrigger: {
+              trigger: revealContainerRef.current,
+              start: "top 80%",
+              end: "bottom 55%",
+              scrub: true,
+            },
+          }
+        );
+      }
+    };
+    initGsap();
+  }, []);
+
   const [posts, setPosts] = useState<Post[]>([
     {
       id: "1",
@@ -366,6 +396,27 @@ export default function CommunityPage() {
                 </motion.div>
               </div>
 
+            </div>
+          </div>
+        </section>
+
+        {/* GSAP Scroll-Driven Text Reveal Section */}
+        <section ref={revealContainerRef} className="relative py-28 md:py-36 bg-[#FBFAF6] overflow-hidden border-b border-[#F3EFE8]/60">
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 text-center space-y-6">
+            <span className="text-xs font-bold tracking-widest text-[#F2542D] uppercase block">
+              About Our Community
+            </span>
+            
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-[#111111] leading-tight tracking-tight font-medium">
+                {("A collective hangar where student aviators, private pilots, and veteran captains share real crash investigations, flight theory logs, and veteran lore. No separated channels, no gatekeepers. Just a single united space designed to make you a safer, more competent pilot.")
+                  .split(" ")
+                  .map((word, idx) => (
+                    <span key={idx} className="reveal-word inline-block mr-[0.25em]">
+                      {word}
+                    </span>
+                  ))}
+              </h2>
             </div>
           </div>
         </section>
