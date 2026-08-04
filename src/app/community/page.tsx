@@ -69,6 +69,8 @@ export default function CommunityPage() {
     initGsap();
   }, []);
 
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const [posts, setPosts] = useState<Post[]>([
     {
       id: "1",
@@ -753,6 +755,139 @@ export default function CommunityPage() {
 
             </div>
 
+          </div>
+        </section>
+
+        {/* Blueprint-Themed FAQ Section */}
+        <section
+          id="faq"
+          className="relative py-28 lg:py-36 bg-[#FBFAF6] border-b border-[#F3EFE8]/60 overflow-hidden"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(79, 139, 100, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(79, 139, 100, 0.06) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        >
+          {/* Absolute Sketch SVGs */}
+          {/* Vintage Propeller - Left */}
+          <div className="absolute left-[3%] top-[15%] w-48 h-48 opacity-15 pointer-events-none rotate-[25deg] hidden md:block">
+            <svg viewBox="0 0 100 100" fill="none" stroke="#4F8B64" strokeWidth="0.8">
+              <circle cx="50" cy="50" r="6" />
+              <path d="M50 44 C 44 20, 56 20, 50 44 Z" />
+              <path d="M50 56 C 44 80, 56 80, 50 56 Z" />
+              <path d="M44 50 C 20 44, 20 56, 44 50 Z" />
+              <path d="M56 50 C 80 44, 80 56, 56 50 Z" />
+              <circle cx="50" cy="50" r="48" strokeDasharray="3,3" />
+            </svg>
+          </div>
+
+          {/* Compass Rose - Right */}
+          <div className="absolute right-[5%] top-[10%] w-52 h-52 opacity-15 pointer-events-none hidden md:block">
+            <svg viewBox="0 0 100 100" fill="none" stroke="#4F8B64" strokeWidth="0.8">
+              <circle cx="50" cy="50" r="46" />
+              <circle cx="50" cy="50" r="2" fill="#4F8B64" />
+              <path d="M50 4 L53 47 L50 50 L47 47 Z" fill="rgba(79, 139, 100, 0.2)" stroke="#4F8B64" />
+              <path d="M50 96 L53 53 L50 50 L47 53 Z" fill="rgba(79, 139, 100, 0.1)" stroke="#4F8B64" />
+              <path d="M96 50 L53 53 L50 50 L53 47 Z" fill="rgba(79, 139, 100, 0.2)" stroke="#4F8B64" />
+              <path d="M4 50 L47 53 L50 50 L47 47 Z" fill="rgba(79, 139, 100, 0.1)" stroke="#4F8B64" />
+              <text x="48" y="14" fontSize="6" fill="#4F8B64" fontWeight="bold">N</text>
+              <text x="48" y="92" fontSize="6" fill="#4F8B64" fontWeight="bold">S</text>
+              <text x="88" y="52" fontSize="6" fill="#4F8B64" fontWeight="bold">E</text>
+              <text x="10" y="52" fontSize="6" fill="#4F8B64" fontWeight="bold">W</text>
+            </svg>
+          </div>
+
+          {/* Aviator Goggles - Bottom Left */}
+          <div className="absolute left-[5%] bottom-[8%] w-40 h-28 opacity-15 pointer-events-none hidden md:block">
+            <svg viewBox="0 0 100 60" fill="none" stroke="#4F8B64" strokeWidth="0.8">
+              <rect x="15" y="15" width="30" height="25" rx="12" />
+              <rect x="55" y="15" width="30" height="25" rx="12" />
+              <path d="M45 27 L55 27" />
+              <path d="M15 27 L5 27 M85 27 L95 27" strokeDasharray="2,2" />
+            </svg>
+          </div>
+
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 relative z-10">
+            {/* Header */}
+            <div className="text-center max-w-2xl mx-auto mb-20 space-y-4">
+              <span className="text-xs font-bold tracking-widest text-[#4F8B64] uppercase block">
+                Technical Logs & Documents
+              </span>
+              <h2 className="text-4xl md:text-5xl font-serif text-[#111111] leading-tight">
+                Hangar Deck FAQs
+              </h2>
+              <p className="text-sm md:text-base text-[#5B5B5B] font-light max-w-lg mx-auto">
+                A collective repository of shared answers for flight operations, safety logs, and general ground school query parameters.
+              </p>
+            </div>
+
+            {/* Accordion Feed */}
+            <div className="max-w-3xl mx-auto space-y-4">
+              {[
+                {
+                  q: "Is access to the flight deck logs completely free?",
+                  a: "Yes. Our community is open to all aspiring, student, and veteran pilots. There are no gated channels, subscription fees, or hidden charges. We believe that access to safety critical resources should be open to all.",
+                },
+                {
+                  q: "Who verifies the crash investigation reports?",
+                  a: "All accident logs and safety report analyses are sourced from official government investigation databases (such as NTSB and AAIB reports). They are compiled and reviewed by certified flight instructors and seasoned captains to extract practical safety takeaways for everyday aviation.",
+                },
+                {
+                  q: "How can aspiring aviators connect with veteran captains?",
+                  a: "We run a monthly pairing matching student aviators and junior co-pilots with retired or active airline captains. It is structured around casual Q&As, resume guidance, and checkride oral prep sessions.",
+                },
+                {
+                  q: "Can I submit my own checkride or flight safety logs?",
+                  a: "Absolutely! The unified Hangar Feed is a collective board. You can submit flight logs, safety notes, checkride reports, or vintage taildragger stories directly by clicking the 'Post Log File' button in the sidebar.",
+                },
+              ].map((faq, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white/80 backdrop-blur-sm border border-[#EAE6DF] rounded-xl overflow-hidden shadow-xs hover:border-[#4F8B64]/50 transition-colors duration-300"
+                >
+                  <button
+                    onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                    className="w-full px-6 py-5 text-left flex items-center justify-between gap-4 font-serif text-base font-semibold text-[#111111] group cursor-pointer"
+                  >
+                    <span>{faq.q}</span>
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#FBFAF6] border border-[#EAE6DF] flex items-center justify-center text-[#5B5B5B] group-hover:border-[#4F8B64] group-hover:text-[#4F8B64] transition-colors">
+                      <motion.span
+                        animate={{ rotate: openFaq === idx ? 45 : 0 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        +
+                      </motion.span>
+                    </span>
+                  </button>
+
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: openFaq === idx ? "auto" : 0,
+                      opacity: openFaq === idx ? 1 : 0,
+                    }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 text-xs sm:text-sm text-[#5B5B5B] font-light leading-relaxed border-t border-[#EAE6DF]/40 pt-4 bg-[#FAF9F5]/40">
+                      {faq.a}
+                    </div>
+                  </motion.div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Wave separator curve at the bottom matching the screen design aesthetic */}
+          <div className="absolute bottom-0 left-0 right-0 h-10 overflow-hidden pointer-events-none z-0">
+            <svg
+              viewBox="0 0 1440 40"
+              fill="none"
+              className="absolute bottom-0 left-0 w-full h-full text-[#FBFAF6] fill-current"
+              preserveAspectRatio="none"
+            >
+              <path d="M0 40 C 240 10, 480 10, 720 25 C 960 40, 1200 40, 1440 25 L 1440 40 L 0 40 Z" />
+            </svg>
           </div>
         </section>
 
