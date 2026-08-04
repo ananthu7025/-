@@ -9,20 +9,19 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
-    { name: "Home", href: "#home" },
-    { name: "Why Plane & Prop", href: "#why-plane-prop" },
-    { name: "Community", href: "#community" },
-    { name: "Student Letters", href: "#letters" },
-    { name: "Mentorship", href: "#mentorship" },
-    { name: "Newsletters", href: "#newsletters" },
-    { name: "About", href: "#about" },
+    { name: "Home", href: "/" },
+    { name: "Why Plane & Prop", href: "/#why-plane-prop" },
+    { name: "Community", href: "/community" },
+    { name: "Student Letters", href: "/#letters" },
+    { name: "Mentorship", href: "/#mentorship" },
+    { name: "Newsletters", href: "/#newsletters" },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#FBFAF6]/80 backdrop-blur-md border-b border-[#EAE6DF]">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
         {/* Logo Left */}
-        <Link href="#home" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group">
           <span className="font-serif text-2xl font-bold tracking-tight text-[#111111] transition-colors group-hover:text-[#D7A640]">
             Plane & Prop
           </span>
