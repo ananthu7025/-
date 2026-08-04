@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Mail, Check, Lock, Send } from "lucide-react";
+import NewsletterPreview from "./NewsletterPreview";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,8 @@ export default function Newsletter() {
   ];
 
   return (
-    <section id="newsletters" className="py-20 lg:py-28 bg-[#FBFAF6] border-b border-[#F3EFE8] overflow-hidden">
+    <section id="newsletters" className="relative py-20 lg:py-28 bg-[#FBFAF6] border-b border-[#F3EFE8] overflow-hidden">
+      <NewsletterPreview />
       <div className="max-w-[1280px] mx-auto px-6 lg:px-12 space-y-12">
 
         {/* Main Grid: Text, Mailbox & Clouds, Sticky Note */}
