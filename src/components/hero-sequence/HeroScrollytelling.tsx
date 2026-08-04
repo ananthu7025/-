@@ -24,9 +24,11 @@ export default function HeroScrollytelling() {
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Full-bleed illustration: painted behind everything, filling the
-            entire viewport with no container edge, so it reads as the page
-            itself rather than embedded media. */}
-        <HeroSequence containerRef={containerRef} onProgress={handleProgress} />
+            viewport below the fixed navbar, so the artwork's top edge is
+            never hidden behind the header. */}
+        <div className="absolute inset-x-0 bottom-0 top-20">
+          <HeroSequence containerRef={containerRef} onProgress={handleProgress} />
+        </div>
 
         {/* Text floats in the scene's negative space above the artwork. */}
         <div className="relative h-full w-full" style={{ zIndex: 10 }}>
