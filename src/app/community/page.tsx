@@ -19,7 +19,9 @@ import {
   Award, 
   ShieldAlert, 
   ChevronUp, 
-  HelpCircle 
+  HelpCircle,
+  Play,
+  ArrowLeft
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -41,6 +43,7 @@ interface Post {
 export default function CommunityPage() {
   const revealContainerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const reelsScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -682,6 +685,259 @@ export default function CommunityPage() {
               </motion.div>
 
             </div>
+          </div>
+        </section>
+
+        {/* Telemetry Streams / Instagram Reels Section */}
+        <section id="streams" className="py-24 bg-[#FBFAF6] border-b border-[#EAE6DF] overflow-hidden">
+          <div className="max-w-[1280px] mx-auto px-6 lg:px-12 mb-16 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div className="space-y-2">
+              <span className="text-xs font-bold tracking-widest text-[#F2542D] uppercase block">
+                Telemetry Streams
+              </span>
+              <h2 className="text-3xl md:text-4xl font-serif text-[#111111] font-semibold">
+                Step Inside the Cockpit
+              </h2>
+            </div>
+            
+            <Link
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white border border-[#EAE6DF] text-[#111111] hover:text-[#D7A640] hover:border-[#D7A640] transition-all duration-250 rounded-full px-5 py-2.5 text-xs font-bold flex items-center gap-2 self-start sm:self-auto"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+              <span>Connect @planeandprop</span>
+            </Link>
+          </div>
+
+          {/* Double-Row Marquee Container */}
+          <div className="space-y-10 relative">
+            
+            {/* Inline CSS Keyframe Rules for infinite seamless marquees */}
+            <style dangerouslySetInnerHTML={{__html: `
+              @keyframes marquee-ltr {
+                0% { transform: translate3d(-50%, 0, 0); }
+                100% { transform: translate3d(0%, 0, 0); }
+              }
+              @keyframes marquee-rtl {
+                0% { transform: translate3d(0%, 0, 0); }
+                100% { transform: translate3d(-50%, 0, 0); }
+              }
+              .animate-marquee-ltr {
+                display: flex;
+                gap: 1.5rem;
+                width: max-content;
+                animation: marquee-ltr 28s linear infinite;
+              }
+              .animate-marquee-rtl {
+                display: flex;
+                gap: 1.5rem;
+                width: max-content;
+                animation: marquee-rtl 28s linear infinite;
+              }
+              .animate-marquee-ltr:hover,
+              .animate-marquee-rtl:hover {
+                animation-play-state: paused;
+              }
+            `}} />
+
+            {/* Row 1: Top Stream (Landscape images moving Left to Right) */}
+            <div className="w-full overflow-hidden relative py-2">
+              {/* Fade masks left/right for immersive edge blending */}
+              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#FBFAF6] via-[#FBFAF6]/70 to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#FBFAF6] via-[#FBFAF6]/70 to-transparent z-10 pointer-events-none" />
+              
+              <div className="animate-marquee-ltr">
+                {[
+                  {
+                    title: "Night Checks",
+                    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=600&q=80",
+                    views: "12.5k views",
+                  },
+                  {
+                    title: "Glide Slope",
+                    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
+                    views: "18.2k views",
+                  },
+                  {
+                    title: "ATC Dispatch",
+                    img: "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=600&q=80",
+                    views: "9.1k views",
+                  },
+                  {
+                    title: "Wind Vector",
+                    img: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=600&q=80",
+                    views: "24.3k views",
+                  },
+                  {
+                    title: "Roster Call",
+                    img: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&w=600&q=80",
+                    views: "15.4k views",
+                  }
+                ].concat([
+                  {
+                    title: "Night Checks",
+                    img: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=600&q=80",
+                    views: "12.5k views",
+                  },
+                  {
+                    title: "Glide Slope",
+                    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
+                    views: "18.2k views",
+                  },
+                  {
+                    title: "ATC Dispatch",
+                    img: "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=600&q=80",
+                    views: "9.1k views",
+                  },
+                  {
+                    title: "Wind Vector",
+                    img: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=600&q=80",
+                    views: "24.3k views",
+                  },
+                  {
+                    title: "Roster Call",
+                    img: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&w=600&q=80",
+                    views: "15.4k views",
+                  }
+                ]).map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ y: -4 }}
+                    className="w-[220px] sm:w-[280px] flex-shrink-0 group cursor-pointer"
+                  >
+                    <div className="relative aspect-[1.6] rounded-[24px] overflow-hidden bg-[#FAF6EE] border border-[#EAE6DF] shadow-xs">
+                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-[#D7A640] text-black flex items-center justify-center transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-md">
+                          <Play className="w-5 h-5 fill-current translate-x-0.5" />
+                        </div>
+                      </div>
+
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-102"
+                      />
+
+                      <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded text-[8px] font-mono text-white z-10">
+                        {item.views}
+                      </div>
+                    </div>
+
+                    <h3 className="text-center mt-3 text-[11px] tracking-widest font-sans font-bold text-[#111111] uppercase group-hover:text-[#D7A640] transition-colors duration-200">
+                      {item.title}
+                    </h3>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 2: Bottom Stream (Landscape images moving Right to Left) */}
+            <div className="w-full overflow-hidden relative py-2">
+              {/* Fade masks left/right for immersive edge blending */}
+              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#FBFAF6] via-[#FBFAF6]/70 to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#FBFAF6] via-[#FBFAF6]/70 to-transparent z-10 pointer-events-none" />
+              
+              <div className="animate-marquee-rtl">
+                {[
+                  {
+                    title: "Cabin Debrief",
+                    img: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&w=600&q=80",
+                    views: "11.1k views",
+                  },
+                  {
+                    title: "Iron Compass",
+                    img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=600&q=80",
+                    views: "7.8k views",
+                  },
+                  {
+                    title: "Altitude Cap",
+                    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+                    views: "14.2k views",
+                  },
+                  {
+                    title: "Terminal Met",
+                    img: "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=600&q=80",
+                    views: "16.8k views",
+                  },
+                  {
+                    title: "Roster Update",
+                    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
+                    views: "10.5k views",
+                  }
+                ].concat([
+                  {
+                    title: "Cabin Debrief",
+                    img: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&w=600&q=80",
+                    views: "11.1k views",
+                  },
+                  {
+                    title: "Iron Compass",
+                    img: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=600&q=80",
+                    views: "7.8k views",
+                  },
+                  {
+                    title: "Altitude Cap",
+                    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+                    views: "14.2k views",
+                  },
+                  {
+                    title: "Terminal Met",
+                    img: "https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=600&q=80",
+                    views: "16.8k views",
+                  },
+                  {
+                    title: "Roster Update",
+                    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80",
+                    views: "10.5k views",
+                  }
+                ]).map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ y: -4 }}
+                    className="w-[220px] sm:w-[280px] flex-shrink-0 group cursor-pointer"
+                  >
+                    <div className="relative aspect-[1.6] rounded-[24px] overflow-hidden bg-[#FAF6EE] border border-[#EAE6DF] shadow-xs">
+                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full bg-[#D7A640] text-black flex items-center justify-center transform scale-90 group-hover:scale-100 transition-transform duration-300 shadow-md">
+                          <Play className="w-5 h-5 fill-current translate-x-0.5" />
+                        </div>
+                      </div>
+
+                      <Image
+                        src={item.img}
+                        alt={item.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-102"
+                      />
+
+                      <div className="absolute bottom-3 right-3 bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded text-[8px] font-mono text-white z-10">
+                        {item.views}
+                      </div>
+                    </div>
+
+                    <h3 className="text-center mt-3 text-[11px] tracking-widest font-sans font-bold text-[#111111] uppercase group-hover:text-[#D7A640] transition-colors duration-200">
+                      {item.title}
+                    </h3>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
           </div>
         </section>
 
