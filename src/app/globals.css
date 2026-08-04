@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  
+  --color-bg-warm: #FBFAF6;
+  --color-primary-text: #111111;
+  --color-secondary-text: #5B5B5B;
+  --color-accent-gold: #D7A640;
+  --color-accent-blue: #6FAECF;
+  --color-border-custom: #EAE6DF;
+  --color-divider-custom: #F3EFE8;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Custom Base Styles */
+body {
+  background-color: #FBFAF6;
+  color: #111111;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Editorial Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* Subtle micro-animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes slow-dash {
+  to {
+    stroke-dashoffset: -40;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 10s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 8s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+/* Premium micro-interactions */
+.premium-btn {
+  @apply relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 shadow-sm hover:shadow-md rounded-full px-8 py-3.5 text-sm font-medium tracking-wide;
+}
+
+.premium-card {
+  @apply bg-white border border-border-custom rounded-[20px] transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-primary-text/[0.02];
+}
+
+/* Dotted path animation for SVG paths - fine round dots, shared across sections
+   so the flight-path motif reads as one continuous thread down the page */
+.dotted-path {
+  stroke-linecap: round;
+  stroke-dasharray: 0.1, 11;
+  animation: slow-dash 10s linear infinite;
 }
