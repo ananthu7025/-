@@ -40,6 +40,30 @@ interface Post {
 
 export default function CommunityPage() {
   const revealContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const canScrollRight = container.scrollLeft < (container.scrollWidth - container.clientWidth - 10);
+      const canScrollLeft = container.scrollLeft > 10;
+
+      if (e.deltaY > 0 && canScrollRight) {
+        e.preventDefault();
+        container.scrollLeft += e.deltaY * 0.85;
+      } else if (e.deltaY < 0 && canScrollLeft) {
+        e.preventDefault();
+        container.scrollLeft += e.deltaY * 0.85;
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
 
   useEffect(() => {
     const initGsap = async () => {
@@ -451,310 +475,213 @@ export default function CommunityPage() {
           </div>
         </section>
 
-        {/* Reddit-Style Feed & Sidebar Section */}
-        <section id="feed" className="py-20 lg:py-24 bg-[#F2EFE8]/30 border-b border-[#F3EFE8]">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-12">
-            
-            {/* Grid Layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-              
-              {/* Left Column: Reddit Feed (lg:col-span-8) */}
-              <div className="lg:col-span-8 space-y-6">
-                
-                {/* Feed Controller / Header bar */}
-                <div className="bg-white border border-[#EAE6DF] rounded-xl px-6 py-4 flex items-center justify-between shadow-xs">
-                  <div className="flex items-center gap-6">
-                    <span className="text-xs font-semibold text-[#F2542D] border-b-2 border-[#F2542D] pb-1 cursor-pointer">
-                      Hot Logs
-                    </span>
-                    <span className="text-xs text-[#5B5B5B] hover:text-[#111111] transition-colors cursor-pointer">
-                      New Reports
-                    </span>
-                    <span className="text-xs text-[#5B5B5B] hover:text-[#111111] transition-colors cursor-pointer">
-                      Top Safety
-                    </span>
-                  </div>
-                  <div className="text-xs text-[#5B5B5B] font-light">
-                    Hangar Feed
-                  </div>
-                </div>
+        {/* Immersive Horizontal Scrolling Feed Section */}
+        <section id="feed" className="py-20 lg:py-24 bg-[#F2EFE8]/30 border-b border-[#F3EFE8] overflow-hidden flex flex-col justify-center">
+          <div className="max-w-[1280px] w-full mx-auto px-6 lg:px-12 mb-10 flex-shrink-0">
+            <div className="space-y-2">
+              <span className="text-xs font-bold tracking-widest text-[#F2542D] uppercase block">
+                Hangar Feed Logs
+              </span>
+              <h2 className="text-3xl md:text-4xl font-serif text-[#111111] font-semibold">
+                Incident Databases & Stories
+              </h2>
+            </div>
+          </div>
 
-                {/* Posts List with Stacking and See More */}
-                <div className="space-y-6">
-                  {posts.map((post, idx) => (
-                    <motion.article
-                      key={post.id}
-                      initial={{
-                        opacity: 0,
-                        y: 32,
-                        scale: 0.98,
-                        filter: "blur(8px)",
-                      }}
-                      whileInView={{
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        filter: "blur(0px)",
-                      }}
-                      viewport={{ once: true, amount: 0.25 }}
-                      transition={{
-                        duration: 0.65,
-                        ease: [0.22, 1, 0.36, 1],
-                        delay: (idx % 3) * 0.08, // 80ms stagger between sibling card batches entering viewport together
-                      }}
-                      whileHover={{
-                        y: -4,
-                        boxShadow: "0 12px 24px -10px rgba(11, 21, 40, 0.08)",
-                      }}
-                      style={{
-                        willChange: "transform, opacity, filter",
-                        zIndex: 10 + idx,
-                      }}
-                      className="sticky top-[100px] bg-white border border-[#EAE6DF] rounded-2xl overflow-hidden shadow-xs hover:border-[#D7A640] transition-colors duration-250 flex cursor-pointer motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:filter-none"
-                    >
-                      {/* Left: Upvote/Downvote Column (Reddit feel) */}
-                      <div className="bg-[#FAF9F5] border-r border-[#EAE6DF]/60 w-12 flex-shrink-0 flex flex-col items-center py-4 gap-1.5">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleVote(post.id, "up");
-                          }}
-                          className={`p-1 rounded hover:bg-[#EAE6DF]/40 transition-colors ${
-                            post.userVote === "up" ? "text-[#F2542D]" : "text-[#5B5B5B]/65"
-                          }`}
-                        >
-                          <ArrowBigUp className={`w-5 h-5 ${post.userVote === "up" ? "fill-[#F2542D]" : ""}`} />
-                        </button>
-                        <span
-                          className={`text-xs font-bold font-sans ${
-                            post.userVote === "up"
-                              ? "text-[#F2542D]"
-                              : post.userVote === "down"
-                              ? "text-[#2B6CB0]"
-                              : "text-[#111111]"
-                          }`}
-                        >
-                          {post.upvotes}
+          {/* Cards container with fluid, proper horizontal scroll and wheel translation */}
+          <div className="w-full overflow-hidden">
+            <div
+              ref={scrollContainerRef}
+              className="flex overflow-x-auto gap-6 pb-12 pt-4 px-6 lg:px-12 snap-x snap-mandatory scroll-smooth scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
+              {/* Feed Cards */}
+              {posts.map((post, idx) => (
+                <motion.article
+                  key={post.id}
+                  initial={{
+                    opacity: 0,
+                    x: 60,
+                    scale: 0.98,
+                    filter: "blur(6px)",
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    filter: "blur(0px)",
+                  }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{
+                    duration: 0.7,
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: (idx % 3) * 0.08,
+                  }}
+                  whileHover={{
+                    y: -6,
+                    boxShadow: "0 16px 32px -10px rgba(11, 21, 40, 0.08)",
+                  }}
+                  style={{
+                    willChange: "transform, opacity, filter",
+                  }}
+                  className="w-[310px] sm:w-[420px] md:w-[460px] lg:w-[500px] flex-shrink-0 bg-white border border-[#EAE6DF] rounded-2xl overflow-hidden shadow-xs hover:border-[#D7A640] transition-all duration-250 flex flex-col justify-between snap-align-start cursor-pointer motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:filter-none"
+                >
+                  <div className="p-6 space-y-4">
+                    {/* Media Embed at Top of Card */}
+                    <div className="relative w-full h-40 sm:h-48 rounded-xl overflow-hidden bg-[#FAF6EE] border border-[#EAE6DF]/40">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Metadata Header */}
+                    <div className="flex flex-wrap items-center gap-2 text-[10px] text-[#5B5B5B]">
+                      <span className="font-bold text-[#111111] hover:underline">
+                        {post.subreddit}
+                      </span>
+                      <span>•</span>
+                      <span>Posted by {post.author}</span>
+                      <span>{post.timeAgo}</span>
+                      
+                      {post.id === "1" && (
+                        <span className="ml-auto bg-[#FBEBE8] text-[#F2542D] font-bold text-[9px] px-2 py-0.5 rounded-full flex items-center gap-1">
+                          <ShieldAlert className="w-2.5 h-2.5" /> CRITICAL
                         </span>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleVote(post.id, "down");
-                          }}
-                          className={`p-1 rounded hover:bg-[#EAE6DF]/40 transition-colors ${
-                            post.userVote === "down" ? "text-[#2B6CB0]" : "text-[#5B5B5B]/65"
-                          }`}
-                        >
-                          <ArrowBigDown className={`w-5 h-5 ${post.userVote === "down" ? "fill-[#2B6CB0]" : ""}`} />
-                        </button>
-                      </div>
+                      )}
+                    </div>
 
-                      {/* Right: Post Content Area */}
-                      <div className="flex-1 p-6 space-y-4">
-                        
-                        {/* Post Header: origin, author, timestamp */}
-                        <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#5B5B5B]">
-                          <span className="font-bold text-[#111111] hover:underline cursor-pointer">
-                            {post.subreddit}
-                          </span>
-                          <span>•</span>
-                          <span>Posted by</span>
-                          <span className="hover:underline cursor-pointer">{post.author}</span>
-                          <span>{post.timeAgo}</span>
-                          
-                          {post.id === "1" && (
-                            <span className="ml-auto bg-[#FBEBE8] text-[#F2542D] font-bold text-[9px] px-2 py-0.5 rounded-full flex items-center gap-1">
-                              <ShieldAlert className="w-2.5 h-2.5" /> CRITICAL
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Title & description */}
-                        <div className="space-y-2">
-                          <h3 className="text-xl font-serif text-[#111111] font-semibold leading-tight hover:underline cursor-pointer">
-                            {post.title}
-                          </h3>
-                          <p className="text-xs md:text-sm text-[#5B5B5B] font-light leading-relaxed">
-                            {post.description}
-                          </p>
-                        </div>
-
-                        {/* Visual Media Embed */}
-                        <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden bg-[#FAF6EE] border border-[#EAE6DF]/40">
-                          <Image
-                            src={post.image}
-                            alt={post.title}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2">
-                          {post.topics.map((t) => (
-                            <span key={t} className="text-[10px] font-medium text-[#5B5B5B] bg-[#FBFAF6] border border-[#EAE6DF] rounded-md px-2 py-0.5">
-                              #{t}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Footer Interactions */}
-                        <div className="pt-4 border-t border-[#EAE6DF]/60 flex items-center gap-6 text-xs text-[#5B5B5B]">
-                          <button className="hover:bg-[#FAF9F5] px-3 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium">
-                            <MessageSquare className="w-4 h-4 text-[#5B5B5B]/85" />
-                            <span>{post.commentsCount} Comments</span>
-                          </button>
-                          
-                          <button className="hover:bg-[#FAF9F5] px-3 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium">
-                            <Share2 className="w-4 h-4 text-[#5B5B5B]/85" />
-                            <span>Share</span>
-                          </button>
-
-                          <button className="hover:bg-[#FAF9F5] px-3 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium ml-auto font-sans">
-                            <Bookmark className="w-4 h-4 text-[#5B5B5B]/85" />
-                            <span>Save Log</span>
-                          </button>
-                        </div>
-
-                      </div>
-                    </motion.article>
-                  ))}
-
-                  {/* Stacking "See More" Button at bottom of feed */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    className="pt-4 flex justify-center"
-                  >
-                    <button
-                      onClick={() => {
-                        const newLogs: Post[] = [
-                          {
-                            id: String(posts.length + 1),
-                            title: "Microburst vs Windshear: Practical Cockpit Recoveries",
-                            subreddit: "h/ground-theory",
-                            author: "u/sim_instructor",
-                            timeAgo: "2 days ago",
-                            description: "Reviewing flight simulator profiles on windshear escape maneuvers. Do not chase the flight director blindly—apply full power and maintain pitch attitude.",
-                            image: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&q=80&w=600",
-                            upvotes: 145,
-                            commentsCount: 22,
-                            userVote: null,
-                            topics: ["SimFlight", "Windshear", "EmergencyEscape"],
-                          },
-                          {
-                            id: String(posts.length + 2),
-                            title: "Tales of the Mail Plane: Flying Open Cockpit in the 1930s",
-                            subreddit: "h/veteran-wisdom",
-                            author: "u/barnstorm_bill",
-                            timeAgo: "3 days ago",
-                            description: "Excerpts from vintage logbooks: navigating by following railroad tracks (the 'iron compass') and landing in cow pastures when fog rolled in. Safety was simple—don't lose sight of the ground.",
-                            image: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=600",
-                            upvotes: 211,
-                            commentsCount: 38,
-                            userVote: null,
-                            topics: ["VintageFlight", "AirmailHistory", "TaildraggerTales"],
-                          }
-                        ];
-                        setPosts([...posts, ...newLogs]);
-                      }}
-                      className="bg-white hover:bg-[#FAF9F5] border border-[#EAE6DF] hover:border-[#D7A640] text-[#111111] font-semibold rounded-full px-8 py-3.5 text-xs shadow-xs hover:shadow-sm transition-all flex items-center gap-2 group cursor-pointer"
-                    >
-                      <span>Load More Hangar Logs</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </motion.div>
-                </div>
-
-              </div>
-
-              {/* Right Column: Reddit-style About sidebar (lg:col-span-4) */}
-              <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-                
-                {/* About Community card */}
-                <div className="bg-white border border-[#EAE6DF] rounded-2xl overflow-hidden shadow-xs">
-                  {/* Banner accent color */}
-                  <div className="h-12 bg-[#0B1528] w-full relative">
-                    <span className="absolute bottom-2 left-4 text-xs font-bold text-[#FAF6EE] tracking-wider uppercase font-serif">
-                      Hangar Board
-                    </span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6">
-                    <div className="space-y-2">
-                      <h4 className="text-base font-serif text-[#111111] font-semibold">About the Unified Crew</h4>
-                      <p className="text-xs text-[#5B5B5B] font-light leading-relaxed">
-                        Welcome to the official, unified flight deck community. A collective hangar where student aviators, private pilots, and veteran captains share real crash investigations, flight theory logs, and veteran lore.
+                    {/* Content */}
+                    <div className="space-y-1.5">
+                      <h3 className="text-lg font-serif text-[#111111] font-semibold leading-snug hover:underline">
+                        {post.title}
+                      </h3>
+                      <p className="text-xs text-[#5B5B5B] font-light leading-relaxed line-clamp-3">
+                        {post.description}
                       </p>
                     </div>
 
-                    {/* Community Stats */}
-                    <div className="grid grid-cols-2 gap-4 border-t border-b border-[#EAE6DF]/60 py-4">
-                      <div>
-                        <div className="text-xl font-bold text-[#111111] font-sans">15.4k</div>
-                        <div className="text-[10px] text-[#5B5B5B] font-light">Aviators Joined</div>
-                      </div>
-                      <div>
-                        <div className="text-xl font-bold text-[#4F8B64] font-sans flex items-center gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-[#4F8B64] inline-block animate-pulse"></span>
-                          <span>124</span>
-                        </div>
-                        <div className="text-[10px] text-[#5B5B5B] font-light">In the Hangar</div>
-                      </div>
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {post.topics.map((t) => (
+                        <span key={t} className="text-[9px] font-medium text-[#5B5B5B] bg-[#FBFAF6] border border-[#EAE6DF] rounded-md px-1.5 py-0.5">
+                          #{t}
+                        </span>
+                      ))}
                     </div>
+                  </div>
 
-                    {/* Simple rules list */}
-                    <div className="space-y-3">
-                      <span className="text-[11px] font-bold text-[#F2542D] uppercase tracking-wider">
-                        Hangar Rules
+                  {/* Footer Interactive bar */}
+                  <div className="px-6 pb-5 pt-3 border-t border-[#EAE6DF]/60 bg-[#FAF9F5]/30 flex items-center justify-between text-xs text-[#5B5B5B]">
+                    {/* Left: Upvote/Downvote Pill */}
+                    <div className="flex items-center bg-[#FAF9F5] border border-[#EAE6DF]/60 rounded-full px-2 py-0.5 gap-1.5">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVote(post.id, "up");
+                        }}
+                        className={`p-1 rounded-full hover:bg-[#EAE6DF]/40 transition-colors ${
+                          post.userVote === "up" ? "text-[#F2542D]" : "text-[#5B5B5B]/65"
+                        }`}
+                      >
+                        <ArrowBigUp className={`w-4 h-4 ${post.userVote === "up" ? "fill-[#F2542D]" : ""}`} />
+                      </button>
+                      <span
+                        className={`text-[11px] font-bold font-sans ${
+                          post.userVote === "up"
+                            ? "text-[#F2542D]"
+                            : post.userVote === "down"
+                            ? "text-[#2B6CB0]"
+                            : "text-[#111111]"
+                        }`}
+                      >
+                        {post.upvotes}
                       </span>
-                      <ol className="space-y-2 text-xs text-[#5B5B5B] font-light list-decimal pl-4">
-                        <li>Focus on safety: share incident details constructively.</li>
-                        <li>Learn from veterans: respect captain wisdom and lore.</li>
-                        <li>Keep ground theory accurate and verified.</li>
-                      </ol>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleVote(post.id, "down");
+                        }}
+                        className={`p-1 rounded-full hover:bg-[#EAE6DF]/40 transition-colors ${
+                          post.userVote === "down" ? "text-[#2B6CB0]" : "text-[#5B5B5B]/65"
+                        }`}
+                      >
+                        <ArrowBigDown className={`w-4 h-4 ${post.userVote === "down" ? "fill-[#2B6CB0]" : ""}`} />
+                      </button>
                     </div>
 
-                    {/* CTA button inside sidebar */}
-                    <button className="w-full bg-[#111111] hover:bg-[#D7A640] text-white text-xs font-bold py-3.5 px-4 rounded-xl transition-all shadow-xs flex items-center justify-center gap-2">
-                      <span>Post Log File</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                    {/* Middle: Comments */}
+                    <div className="flex items-center gap-4">
+                      <button className="hover:text-[#111111] transition-colors flex items-center gap-1.5 font-medium">
+                        <MessageSquare className="w-3.5 h-3.5 text-[#5B5B5B]/85" />
+                        <span>{post.commentsCount}</span>
+                      </button>
+                      
+                      <button className="hover:text-[#111111] transition-colors flex items-center gap-1.5 font-medium">
+                        <Share2 className="w-3.5 h-3.5 text-[#5B5B5B]/85" />
+                        <span>Share</span>
+                      </button>
+                    </div>
+
+                    {/* Right: Save */}
+                    <button className="hover:text-[#111111] transition-colors flex items-center gap-1.5 font-medium">
+                      <Bookmark className="w-3.5 h-3.5 text-[#5B5B5B]/85" />
                     </button>
                   </div>
-                </div>
+                </motion.article>
+              ))}
 
-                {/* Helpful resources widget */}
-                <div className="bg-white border border-[#EAE6DF] rounded-2xl p-6 shadow-xs space-y-4">
-                  <h4 className="text-sm font-serif font-bold text-[#111111] flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4 text-[#D7A640]" /> Useful Resources
-                  </h4>
-                  <ul className="space-y-2 text-xs text-[#5B5B5B] font-light">
-                    <li>
-                      <a href="#" className="hover:text-[#F2542D] flex items-center justify-between">
-                        <span>FAA/DGCA Incident Database</span>
-                        <ArrowUpRight className="w-3 h-3 text-[#5B5B5B]/50" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="hover:text-[#F2542D] flex items-center justify-between">
-                        <span>Checkride Prep Guides</span>
-                        <ArrowUpRight className="w-3 h-3 text-[#5B5B5B]/50" />
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" className="hover:text-[#F2542D] flex items-center justify-between">
-                        <span>Flight Risk Assessment Tool</span>
-                        <ArrowUpRight className="w-3 h-3 text-[#5B5B5B]/50" />
-                      </a>
-                    </li>
-                  </ul>
+              {/* Card Last: Immersive Load More */}
+              <motion.div
+                initial={{ opacity: 0, x: 80 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="w-[260px] sm:w-[300px] flex-shrink-0 bg-white/40 border border-[#EAE6DF] border-dashed rounded-2xl flex flex-col items-center justify-center p-8 text-center snap-align-start hover:border-[#D7A640] transition-colors group cursor-pointer"
+                onClick={() => {
+                  const newLogs: Post[] = [
+                    {
+                      id: String(posts.length + 1),
+                      title: "Microburst vs Windshear: Practical Cockpit Recoveries",
+                      subreddit: "h/ground-theory",
+                      author: "u/sim_instructor",
+                      timeAgo: "2 days ago",
+                      description: "Reviewing flight simulator profiles on windshear escape maneuvers. Do not chase the flight director blindly—apply full power and maintain pitch attitude.",
+                      image: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&q=80&w=600",
+                      upvotes: 145,
+                      commentsCount: 22,
+                      userVote: null,
+                      topics: ["SimFlight", "Windshear", "EmergencyEscape"],
+                    },
+                    {
+                      id: String(posts.length + 2),
+                      title: "Tales of the Mail Plane: Flying Open Cockpit in the 1930s",
+                      subreddit: "h/veteran-wisdom",
+                      author: "u/barnstorm_bill",
+                      timeAgo: "3 days ago",
+                      description: "Excerpts from vintage logbooks: navigating by following railroad tracks (the 'iron compass') and landing in cow pastures when fog rolled in. Safety was simple—don't lose sight of the ground.",
+                      image: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=600",
+                      upvotes: 211,
+                      commentsCount: 38,
+                      userVote: null,
+                      topics: ["VintageFlight", "AirmailHistory", "TaildraggerTales"],
+                    }
+                  ];
+                  setPosts([...posts, ...newLogs]);
+                }}
+              >
+                <div className="w-12 h-12 rounded-full bg-[#FAF9F5] border border-[#EAE6DF] flex items-center justify-center text-[#5B5B5B] group-hover:border-[#D7A640] group-hover:text-[#D7A640] transition-colors mb-4">
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                 </div>
-
-              </div>
+                <h4 className="font-serif text-[#111111] font-semibold text-sm mb-1">
+                  Load More Logs
+                </h4>
+                <p className="text-[11px] text-[#5B5B5B] font-light leading-relaxed">
+                  Fetch older databases, vintage accounts, and ground school logs.
+                </p>
+              </motion.div>
 
             </div>
-
           </div>
         </section>
 
