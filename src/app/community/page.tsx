@@ -263,7 +263,12 @@ export default function CommunityPage() {
 
               {/* Clover Layout */}
               <div className="lg:col-span-7 flex items-center justify-center relative min-h-[500px] sm:min-h-[600px] w-full">
-                <div className="relative w-[340px] h-[340px] sm:w-[480px] sm:h-[480px]">
+                <motion.div
+                  initial={{ rotate: -720, scale: 0.5, opacity: 0 }}
+                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                  transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative w-[340px] h-[340px] sm:w-[480px] sm:h-[480px]"
+                >
                   
                   {/* Petal 1 */}
                   <motion.div
@@ -271,18 +276,15 @@ export default function CommunityPage() {
                     animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
                     whileHover={{ scale: 1.04, zIndex: 30 }}
-                    className="absolute top-0 left-0 w-[49.5%] h-[49.5%] bg-[#FAF5E6] border border-[#F2DFAC] rounded-tl-[50%] rounded-tr-[50%] rounded-bl-[50%] rounded-br-[0] p-6 sm:p-8 flex flex-col justify-between shadow-sm cursor-pointer group"
+                    className="absolute top-0 left-0 w-[49.5%] h-[49.5%] bg-[#FAF5E6] border border-[#F2DFAC] rounded-[120px_120px_50px_120px] p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer group"
                   >
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs sm:text-sm font-bold text-[#D7A640] font-sans">01</span>
-                      <div className="w-8 h-8 rounded-full bg-[#D7A640]/10 flex items-center justify-center text-[#D7A640] group-hover:rotate-[15deg] transition-transform">
-                        <MessageSquare className="w-4 h-4" />
-                      </div>
+                    <div className="w-12 h-12 rounded-full bg-[#D7A640]/10 flex items-center justify-center text-[#D7A640] mb-3 group-hover:rotate-[15deg] transition-transform">
+                      <BookOpen className="w-5 h-5" />
                     </div>
-                    <div>
-                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#111111] mb-1">Connect</h3>
-                      <p className="text-[10px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
-                        Meet fellow aviators, join regional pilot hubs, and share flight logs.
+                    <div className="space-y-1 max-w-[90%]">
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#111111]">Learn</h3>
+                      <p className="text-[11px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
+                        DGCA classes, concepts, notes and more.
                       </p>
                     </div>
                   </motion.div>
@@ -293,18 +295,15 @@ export default function CommunityPage() {
                     animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                     whileHover={{ scale: 1.04, zIndex: 30 }}
-                    className="absolute top-0 right-0 w-[49.5%] h-[49.5%] bg-[#EEF4F0] border border-[#D4E5D9] rounded-tl-[50%] rounded-tr-[50%] rounded-br-[50%] rounded-bl-[0] p-6 sm:p-8 flex flex-col justify-between shadow-sm cursor-pointer group"
+                    className="absolute top-0 right-0 w-[49.5%] h-[49.5%] bg-[#EEF4F0] border border-[#D4E5D9] rounded-[120px_120px_120px_50px] p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer group"
                   >
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs sm:text-sm font-bold text-[#4F8B64] font-sans">02</span>
-                      <div className="w-8 h-8 rounded-full bg-[#4F8B64]/10 flex items-center justify-center text-[#4F8B64] group-hover:rotate-[-15deg] transition-transform">
-                        <Users className="w-4 h-4" />
-                      </div>
+                    <div className="w-12 h-12 rounded-full bg-[#4F8B64]/10 flex items-center justify-center text-[#4F8B64] mb-3 group-hover:rotate-[-15deg] transition-transform">
+                      <MessageSquare className="w-5 h-5" />
                     </div>
-                    <div>
-                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#111111] mb-1">Mentor</h3>
-                      <p className="text-[10px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
-                        Get matched with experienced Captains for direct 1-on-1 guidance.
+                    <div className="space-y-1 max-w-[90%]">
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#111111]">Prepare</h3>
+                      <p className="text-[11px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
+                        Mock interviews, HR & PI sessions, guidance.
                       </p>
                     </div>
                   </motion.div>
@@ -315,18 +314,15 @@ export default function CommunityPage() {
                     animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
                     whileHover={{ scale: 1.04, zIndex: 30 }}
-                    className="absolute bottom-0 left-0 w-[49.5%] h-[49.5%] bg-[#F3EFF8] border border-[#DFD3EC] rounded-tl-[50%] rounded-bl-[50%] rounded-br-[50%] rounded-tr-[0] p-6 sm:p-8 flex flex-col justify-between shadow-sm cursor-pointer group"
+                    className="absolute bottom-0 left-0 w-[49.5%] h-[49.5%] bg-[#F3EFF8] border border-[#DFD3EC] rounded-[120px_50px_120px_120px] p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer group"
                   >
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs sm:text-sm font-bold text-[#805AD5] font-sans">03</span>
-                      <div className="w-8 h-8 rounded-full bg-[#805AD5]/10 flex items-center justify-center text-[#805AD5] group-hover:scale-110 transition-transform">
-                        <BookOpen className="w-4 h-4" />
-                      </div>
+                    <div className="w-12 h-12 rounded-full bg-[#805AD5]/10 flex items-center justify-center text-[#805AD5] mb-3 group-hover:scale-110 transition-transform">
+                      <Users className="w-5 h-5" />
                     </div>
-                    <div>
-                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#111111] mb-1">Collab</h3>
-                      <p className="text-[10px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
-                        Form study groups for DGCA ground classes & mock oral prep.
+                    <div className="space-y-1 max-w-[90%]">
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#111111]">Grow</h3>
+                      <p className="text-[11px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
+                        Community support, mentorship, peer learning.
                       </p>
                     </div>
                   </motion.div>
@@ -337,18 +333,19 @@ export default function CommunityPage() {
                     animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
                     whileHover={{ scale: 1.04, zIndex: 30 }}
-                    className="absolute bottom-0 right-0 w-[49.5%] h-[49.5%] bg-[#ECF3F6] border border-[#D1E2EA] rounded-tr-[50%] rounded-br-[50%] rounded-bl-[50%] rounded-tl-[0] p-6 sm:p-8 flex flex-col justify-between shadow-sm cursor-pointer group"
+                    className="absolute bottom-0 right-0 w-[49.5%] h-[49.5%] bg-[#ECF3F6] border border-[#D1E2EA] rounded-[50px_120px_120px_120px] p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-sm cursor-pointer group"
                   >
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs sm:text-sm font-bold text-[#2B6CB0] font-sans">04</span>
-                      <div className="w-8 h-8 rounded-full bg-[#2B6CB0]/10 flex items-center justify-center text-[#2B6CB0] group-hover:translate-y-[-2px] transition-transform">
-                        <Calendar className="w-4 h-4" />
-                      </div>
+                    <div className="w-12 h-12 rounded-full bg-[#2B6CB0]/10 flex items-center justify-center text-[#2B6CB0] mb-3 group-hover:translate-y-[-2px] transition-transform">
+                      {/* Briefcase/Suitcase Icon */}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+                        <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        <rect width="20" height="14" x="2" y="6" rx="2" />
+                      </svg>
                     </div>
-                    <div>
-                      <h3 className="font-serif text-base sm:text-lg font-bold text-[#111111] mb-1">Events</h3>
-                      <p className="text-[10px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
-                        Weekly webinars, live Q&As, and virtual hangar meetup logs.
+                    <div className="space-y-1 max-w-[90%]">
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-[#111111]">Stay Ahead</h3>
+                      <p className="text-[11px] sm:text-xs text-[#5B5B5B] leading-normal font-light">
+                        Newsletters, resources, career insights.
                       </p>
                     </div>
                   </motion.div>
@@ -366,7 +363,7 @@ export default function CommunityPage() {
                       </svg>
                     </div>
                   </motion.div>
-                </div>
+                </motion.div>
               </div>
 
             </div>
