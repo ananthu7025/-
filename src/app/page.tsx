@@ -4,6 +4,7 @@ import WhyPlaneProp from "@/components/WhyPlaneProp";
 import Community from "@/components/Community";
 import StudentLetters from "@/components/StudentLetters";
 import Mentorship from "@/components/Mentorship";
+import OrganizeScrollytelling from "@/components/organize-sequence/OrganizeScrollytelling";
 import Newsletter from "@/components/Newsletter";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -19,6 +20,9 @@ export default function Home() {
           <Community />
           <StudentLetters />
           <Mentorship />
+        </div>
+        <OrganizeScrollytelling />
+        <div className="max-w-[1280px] mx-auto overflow-x-hidden">
           <Newsletter />
           <Contact />
         </div>
