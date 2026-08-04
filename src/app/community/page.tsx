@@ -477,17 +477,46 @@ export default function CommunityPage() {
                   </div>
                 </div>
 
-                {/* Posts List */}
-                <div className="space-y-5">
-                  {posts.map((post) => (
-                    <article
+                {/* Posts List with Stacking and See More */}
+                <div className="space-y-6">
+                  {posts.map((post, idx) => (
+                    <motion.article
                       key={post.id}
-                      className="bg-white border border-[#EAE6DF] rounded-2xl overflow-hidden shadow-xs hover:border-[#D7A640] transition-colors flex"
+                      initial={{
+                        opacity: 0,
+                        y: 32,
+                        scale: 0.98,
+                        filter: "blur(8px)",
+                      }}
+                      whileInView={{
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        filter: "blur(0px)",
+                      }}
+                      viewport={{ once: true, amount: 0.25 }}
+                      transition={{
+                        duration: 0.65,
+                        ease: [0.22, 1, 0.36, 1],
+                        delay: (idx % 3) * 0.08, // 80ms stagger between sibling card batches entering viewport together
+                      }}
+                      whileHover={{
+                        y: -4,
+                        boxShadow: "0 12px 24px -10px rgba(11, 21, 40, 0.08)",
+                      }}
+                      style={{
+                        willChange: "transform, opacity, filter",
+                        zIndex: 10 + idx,
+                      }}
+                      className="sticky top-[100px] bg-white border border-[#EAE6DF] rounded-2xl overflow-hidden shadow-xs hover:border-[#D7A640] transition-colors duration-250 flex cursor-pointer motion-reduce:transform-none motion-reduce:opacity-100 motion-reduce:filter-none"
                     >
                       {/* Left: Upvote/Downvote Column (Reddit feel) */}
                       <div className="bg-[#FAF9F5] border-r border-[#EAE6DF]/60 w-12 flex-shrink-0 flex flex-col items-center py-4 gap-1.5">
                         <button
-                          onClick={() => handleVote(post.id, "up")}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleVote(post.id, "up");
+                          }}
                           className={`p-1 rounded hover:bg-[#EAE6DF]/40 transition-colors ${
                             post.userVote === "up" ? "text-[#F2542D]" : "text-[#5B5B5B]/65"
                           }`}
@@ -506,7 +535,10 @@ export default function CommunityPage() {
                           {post.upvotes}
                         </span>
                         <button
-                          onClick={() => handleVote(post.id, "down")}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleVote(post.id, "down");
+                          }}
                           className={`p-1 rounded hover:bg-[#EAE6DF]/40 transition-colors ${
                             post.userVote === "down" ? "text-[#2B6CB0]" : "text-[#5B5B5B]/65"
                           }`}
@@ -576,15 +608,61 @@ export default function CommunityPage() {
                             <span>Share</span>
                           </button>
 
-                          <button className="hover:bg-[#FAF9F5] px-3 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium ml-auto">
+                          <button className="hover:bg-[#FAF9F5] px-3 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium ml-auto font-sans">
                             <Bookmark className="w-4 h-4 text-[#5B5B5B]/85" />
                             <span>Save Log</span>
                           </button>
                         </div>
 
                       </div>
-                    </article>
+                    </motion.article>
                   ))}
+
+                  {/* Stacking "See More" Button at bottom of feed */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    className="pt-4 flex justify-center"
+                  >
+                    <button
+                      onClick={() => {
+                        const newLogs: Post[] = [
+                          {
+                            id: String(posts.length + 1),
+                            title: "Microburst vs Windshear: Practical Cockpit Recoveries",
+                            subreddit: "h/ground-theory",
+                            author: "u/sim_instructor",
+                            timeAgo: "2 days ago",
+                            description: "Reviewing flight simulator profiles on windshear escape maneuvers. Do not chase the flight director blindly—apply full power and maintain pitch attitude.",
+                            image: "https://images.unsplash.com/photo-1508847154043-be12a927dfa8?auto=format&fit=crop&q=80&w=600",
+                            upvotes: 145,
+                            commentsCount: 22,
+                            userVote: null,
+                            topics: ["SimFlight", "Windshear", "EmergencyEscape"],
+                          },
+                          {
+                            id: String(posts.length + 2),
+                            title: "Tales of the Mail Plane: Flying Open Cockpit in the 1930s",
+                            subreddit: "h/veteran-wisdom",
+                            author: "u/barnstorm_bill",
+                            timeAgo: "3 days ago",
+                            description: "Excerpts from vintage logbooks: navigating by following railroad tracks (the 'iron compass') and landing in cow pastures when fog rolled in. Safety was simple—don't lose sight of the ground.",
+                            image: "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=600",
+                            upvotes: 211,
+                            commentsCount: 38,
+                            userVote: null,
+                            topics: ["VintageFlight", "AirmailHistory", "TaildraggerTales"],
+                          }
+                        ];
+                        setPosts([...posts, ...newLogs]);
+                      }}
+                      className="bg-white hover:bg-[#FAF9F5] border border-[#EAE6DF] hover:border-[#D7A640] text-[#111111] font-semibold rounded-full px-8 py-3.5 text-xs shadow-xs hover:shadow-sm transition-all flex items-center gap-2 group cursor-pointer"
+                    >
+                      <span>Load More Hangar Logs</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </motion.div>
                 </div>
 
               </div>
