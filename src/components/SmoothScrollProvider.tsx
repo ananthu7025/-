@@ -20,14 +20,22 @@ export default function SmoothScrollProvider({
 
     lenis.on("scroll", ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const rafCallback = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(rafCallback);
     gsap.ticker.lagSmoothing(0);
 
+    // Every ScrollTrigger with pin/sticky content needs to re-measure once
+    // Lenis has taken over scrolling, otherwise pin ranges are computed
+    // against the pre-Lenis layout and drift or fail to hold.
+    ScrollTrigger.addEventListener("refreshInit", () => lenis.resize());
+    const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 200);
+
     return () => {
+      window.clearTimeout(refreshTimeout);
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(rafCallback);
     };
   }, []);
 
